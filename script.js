@@ -27,25 +27,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Scroll reveal animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animation
-document.querySelectorAll('.pillar, .process-card, .service-group').forEach(el => {
-    observer.observe(el);
-});
-
 // Contact form handling
 const contactForm = document.getElementById('contact-form');
 
@@ -86,32 +67,25 @@ window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
         navbar.style.backgroundColor = 'rgba(241, 225, 233, 0.98)';
     } else {
-        navbar.style.backgroundColor = 'rgba(241, 225, 233, 0.95)';
+        navbar.style.backgroundColor = 'rgba(241, 225, 233, 0.98)';
     }
 });
 
-// Parallax effect for hero background
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroBackground = document.querySelector('.hero-background');
-    if (heroBackground) {
-        heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
+// Scroll reveal animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+        }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.querySelectorAll('.pillar, .process-step, .service-group').forEach(el => {
+    observer.observe(el);
 });
-
-// Lazy loading for images
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src || img.src;
-                observer.unobserve(img);
-            }
-        });
-    });
-
-    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
